@@ -13,7 +13,6 @@
 <svelte:window bind:scrollY={$y} bind:innerHeight={$innerHeight} />
 
 <div class="parallax-container {className}">
-  Parallax container!
   {@render children?.()}
 </div>
 
