@@ -1,19 +1,98 @@
 <script lang="ts">
-  import { writable } from "svelte/store";
+  import { setContext, type Snippet } from "svelte";
+  import { Spring } from "svelte/motion";
+  import { type ParallaxLayerContext } from "./ParallaxLayer.svelte";
 
-  let { children, class: className = "" } = $props<{
-    children?: unknown;
+  // Props
+  export type ParallaxProps = {
+    children?: Snippet;
     class?: string;
-  }>();
 
-  let y = writable(0);
-  let innerHeight = writable(0);
+    stiffness?: number; // stiffness of the spring
+    damping?: number; // damping of the spring
+
+    height?: number; // optional height of the parallax container
+
+    disabled?: boolean;
+  };
+
+  let {
+    children,
+    class: className = "",
+    stiffness = 1,
+    damping = 1,
+    height: containerHeight = 0,
+    disabled = false,
+  }: ParallaxProps = $props();
+
+  // Define variables
+  let container: HTMLElement;
+
+  // Define state variables
+  let y = $state(0);
+  let innerHeight = $state(0);
+  let yTop = $state(0);
+  let height = $state(0);
+  const scrollSpring = new Spring(0);
+
+  // Set up scroll config on mount
+  $effect(() => {
+    scrollSpring.stiffness = stiffness;
+    scrollSpring.damping = damping;
+  });
+
+  // Update dimensions on mount and on resize
+  function updateDimensions() {
+    if (container) {
+      yTop = container.getBoundingClientRect().top + y;
+      height = containerHeight > 0 ? containerHeight : innerHeight;
+    }
+  }
+
+  $effect(() => {
+    updateDimensions();
+  });
+
+  // Set up layers
+  export type ParallaxContext = {
+    getSpringConfig: () => { stiffness: number; damping: number };
+    registerLayer: (layer: ParallaxLayerContext) => void;
+    unregisterLayer: (layer: ParallaxLayerContext) => void;
+  };
+
+  const layers = $state<ParallaxLayerContext[]>([]);
+  setContext<ParallaxContext>("parallax", {
+    getSpringConfig() {
+      return { stiffness, damping };
+    },
+    registerLayer: (layer: ParallaxLayerContext) => {
+      layers.push(layer);
+    },
+    unregisterLayer: (layer: ParallaxLayerContext) => {
+      const index = layers.indexOf(layer);
+      if (index !== -1) {
+        layers.splice(index, 1);
+      }
+    },
+  });
+
+  // Update layers on scroll
+  $effect(() => {
+    if (!disabled) {
+      const scrollTop = y - yTop;
+      for (const layer of layers) {
+        layer.setPosition(scrollTop, height);
+      }
+    }
+  });
 </script>
 
-<svelte:window bind:scrollY={$y} bind:innerHeight={$innerHeight} />
+<svelte:window bind:scrollY={y} bind:innerHeight on:resize={updateDimensions} />
 
-<div class="parallax-container {className}">
-  Parallax container!
+<div
+  class="parallax-container {className}"
+  bind:this={container}
+  style="height: {height}px;">
   {@render children?.()}
 </div>
 

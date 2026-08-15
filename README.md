@@ -1,8 +1,8 @@
 # Svelte Parallax Plus
 
-A small libraray to support parallax scrolling for Svelte projects.
+A small libraray to support parallax scrolling for Svelte 5
 
-Inspired by [svelte-parallax](https://github.com/kindoflew/svelte-parallax)
+Heavily inspired by [svelte-parallax](https://github.com/kindoflew/svelte-parallax). This project is a complete rewrite of svelte-parallax to work with modern Svelte.
 
 ## Installing
 
