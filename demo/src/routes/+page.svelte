@@ -3,19 +3,62 @@
   import ParallaxLayer from "../../../src/ParallaxLayer.svelte";
 </script>
 
-<div style="height: 25vh;"></div>
-<Parallax>
-  <ParallaxLayer scrollSpeed={0.5} class="bg-layer">
-    <div class="bg-content">
-      <h1>Background Layer</h1>
-    </div>
+<div style="height: 100vh;"></div>
+
+<Parallax class="image-container">
+  <ParallaxLayer scrollSpeed={0} class="bg-layer">
+    <div class="background" style="filter: blur(2px);"></div>
   </ParallaxLayer>
 
-  <ParallaxLayer class="mid-layer">
-    <div class="mid-content">
-      <h1>Midground Layer</h1>
-    </div>
+  <ParallaxLayer scrollSpeed={0.1} class="bg-layer">
+    <img
+      class="image"
+      style="filter: blur(4px);"
+      src="Background 3.png"
+      alt="" />
+  </ParallaxLayer>
+
+  <ParallaxLayer
+    scale={0.6}
+    offsetX={-0.35}
+    offsetY={1.6}
+    scrollSpeed={0.15}
+    class="mid-layer">
+    <img
+      class="image"
+      style="filter: blur(1px);"
+      src="Background 2.png"
+      alt="" />
+  </ParallaxLayer>
+
+  <ParallaxLayer
+    scale={1}
+    offsetX={0.1}
+    offsetY={0.1}
+    scrollSpeed={0.2}
+    class="front-layer">
+    <img
+      class="image"
+      style="filter: blur(2px);"
+      src="Background 1.png"
+      alt="" />
   </ParallaxLayer>
 </Parallax>
 
-<div style="height: 25vh;"></div>
+<div style="height: 100vh;"></div>
+
+<style>
+  .background {
+    height: 100%;
+    background: linear-gradient(to bottom, #c3e3eb, #9cd6bf, #1e3622);
+  }
+  :global(.image-container) {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .image {
+    width: 100%;
+    height: auto;
+    contain: cover;
+  }
+</style>
