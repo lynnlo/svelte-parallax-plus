@@ -1,22 +1,27 @@
 <script lang="ts">
   import { getContext, onMount, type Snippet } from "svelte";
   import { Spring } from "svelte/motion";
+  import { type ClassValue } from "svelte/elements";
   import { type ParallaxContext } from "./Parallax.svelte";
 
   // Props
   export type ParallaxLayerProps = {
     children?: Snippet;
-    class?: string;
+    class?: ClassValue;
 
     scrollSpeed?: number; // speed that the layer scrolls at
-    offset?: number; // the vertical offset of the layer
+    offsetY?: number; // the vertical offset of the layer
+    offsetX?: number; // the horizontal offset of the layer
+    scale?: number;
   };
 
   let {
     children,
     class: className = "",
     scrollSpeed = 1,
-    offset = 0,
+    offsetY = 0,
+    offsetX = 0,
+    scale = 1,
   }: ParallaxLayerProps = $props();
 
   // Define variables
@@ -24,18 +29,38 @@
 
   // Define state variables
   let layerHeight = $state(0);
-  const deltaScroll = new Spring(0);
+  const calculatedY = new Spring(0, { precision: 0.01 });
+  const calculatedX = new Spring(0, { precision: 0.01 });
 
   // Define a context object
   export type ParallaxLayerContext = {
-    setPosition: (scrollTop: number, height: number) => void;
+    setPosition: (
+      scrollTop: number,
+      width: number,
+      height: number,
+      disabled: boolean,
+    ) => void;
     setHeight: (height: number) => void;
   };
 
   let localContext: ParallaxLayerContext = {
-    setPosition: (scrollTop: number, height: number) => {
-      const deltaY = 2 * offset * height * scrollSpeed;
-      deltaScroll.set(-(scrollTop * scrollSpeed) + deltaY);
+    setPosition: (
+      scrollTop: number,
+      width: number,
+      height: number,
+      disabled: boolean,
+    ) => {
+      if (disabled) {
+        calculatedX.set(offsetX * width);
+        calculatedY.set(offsetY * height);
+        return;
+      }
+      // Calculate the position of the layer based on the scroll position, speed, and offset
+      const dX = offsetX * width;
+      const dY = offsetY * height * scrollSpeed;
+      // Update the spring with the new position
+      calculatedX.set(dX);
+      calculatedY.set((scrollTop * scrollSpeed) / Math.max(0.01, scale) + dY);
     },
     setHeight: (height: number) => {
       // Set the height of the layer to the height of the container
@@ -56,19 +81,20 @@
 
   $effect(() => {
     const { stiffness, damping } = parallaxContext.getSpringConfig();
-    deltaScroll.stiffness = stiffness;
-    deltaScroll.damping = damping;
+    calculatedY.stiffness = stiffness;
+    calculatedY.damping = damping;
   });
 
   // Create a derived scroll translation
-  const transform = $derived(`translate3d(0, ${deltaScroll.current}px, 0)`);
+  const transform = $derived(
+    `translate3d(${calculatedX.current}px, ${calculatedY.current}px, 0)`,
+  );
 </script>
 
 <div
   class="parallax-layer {className}"
   bind:this={container}
-  style="transform: {transform}; height: {layerHeight}px;">
-  {transform}
+  style="transform: {transform}; scale: {scale}; height: {layerHeight}px;">
   {@render children?.()}
 </div>
 
