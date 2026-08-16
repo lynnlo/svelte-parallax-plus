@@ -23,6 +23,7 @@
     offsetX={-0.6}
     offsetY={0.5}
     scrollSpeed={0.01}
+    bindingBoxY={[-1, 0]}
     class="mid-layer">
     <img
       class="image"

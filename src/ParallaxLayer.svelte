@@ -10,8 +10,12 @@
     class?: ClassValue;
 
     scrollSpeed?: number; // speed that the layer scrolls at
-    offsetY?: number; // the vertical offset of the layer
+
+    bindingBoxX?: [number, number]; // the horizontal bounding box of the layer
+    bindingBoxY?: [number, number]; // the vertical bounding box of the layer
+
     offsetX?: number; // the horizontal offset of the layer
+    offsetY?: number; // the vertical offset of the layer
     scale?: number;
   };
 
@@ -19,6 +23,8 @@
     children,
     class: className = "",
     scrollSpeed = 1,
+    bindingBoxX = [-1, 1],
+    bindingBoxY = [-1, 1],
     offsetY = 0,
     offsetX = 0,
     scale = 1,
@@ -32,10 +38,16 @@
   const calculatedY = new Spring(0, { precision: 0.01 });
   const calculatedX = new Spring(0, { precision: 0.01 });
 
+  // Define a clamp macro
+  const clamp = (min: number, value: number, max: number) => {
+    return Math.min(Math.max(value, min), max);
+  };
+
   // Define a context object
   export type ParallaxLayerContext = {
     setPosition: (
       scrollTop: number,
+      yTop: number,
       width: number,
       height: number,
       disabled: boolean,
@@ -46,23 +58,47 @@
   let localContext: ParallaxLayerContext = {
     setPosition: (
       scrollTop: number,
+      yTop: number,
       width: number,
       height: number,
       disabled: boolean,
     ) => {
-      const dX = offsetX * width * scale;
-      const dY = offsetY * height * scale;
+      // Position of the layer based on parent and offsets
+      const posX = offsetX * width * scale;
+      const posY = offsetY * height * scale;
 
+      // If disabled, only set the offsets
       if (disabled) {
-        calculatedX.set(dX);
-        calculatedY.set(dY);
+        calculatedX.set(posX);
+        calculatedY.set(posY);
         return;
       }
-      // Calculate the position of the layer based on the scroll position, speed, and offset
+
+      const bindedScrollY = clamp(
+        bindingBoxY[0] * height - yTop,
+        scrollTop,
+        bindingBoxY[1] * height - yTop,
+      );
+
+      console.log(
+        "yTop",
+        yTop,
+        "height",
+        height,
+        "bindingBoxY",
+        bindingBoxY.map((v) => v * height),
+        "scrollTop",
+        scrollTop,
+        "bindedScrollY",
+        bindedScrollY,
+      );
+
+      const dX = 0;
+      const dY = (bindedScrollY * scrollSpeed) / Math.max(0.01, scale);
 
       // Update the spring with the new position
-      calculatedX.set(dX);
-      calculatedY.set((scrollTop * scrollSpeed) / Math.max(0.01, scale) + dY);
+      calculatedX.set(posX);
+      calculatedY.set(posY + dY);
     },
     setHeight: (height: number) => {
       // Set the height of the layer to the height of the container

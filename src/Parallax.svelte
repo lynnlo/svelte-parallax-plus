@@ -85,7 +85,7 @@
   $effect(() => {
     const scrollTop = y - yTop;
     for (const layer of layers) {
-      layer.setPosition(scrollTop, width, height, disabled);
+      layer.setPosition(scrollTop, yTop, width, height, disabled);
       layer.setHeight(height);
     }
   });
