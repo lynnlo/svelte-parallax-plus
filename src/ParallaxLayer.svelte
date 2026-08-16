@@ -50,14 +50,16 @@
       height: number,
       disabled: boolean,
     ) => {
+      const dX = offsetX * width * scale;
+      const dY = offsetY * height * scale;
+
       if (disabled) {
-        calculatedX.set(offsetX * width);
-        calculatedY.set(offsetY * height);
+        calculatedX.set(dX);
+        calculatedY.set(dY);
         return;
       }
       // Calculate the position of the layer based on the scroll position, speed, and offset
-      const dX = offsetX * width;
-      const dY = offsetY * height * scrollSpeed;
+
       // Update the spring with the new position
       calculatedX.set(dX);
       calculatedY.set((scrollTop * scrollSpeed) / Math.max(0.01, scale) + dY);

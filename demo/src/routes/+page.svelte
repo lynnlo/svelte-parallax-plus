@@ -10,7 +10,7 @@
     <div class="background" style="filter: blur(2px);"></div>
   </ParallaxLayer>
 
-  <ParallaxLayer scrollSpeed={0.1} class="bg-layer">
+  <ParallaxLayer scrollSpeed={-0.1} class="bg-layer">
     <img
       class="image"
       style="filter: blur(4px);"
@@ -20,9 +20,9 @@
 
   <ParallaxLayer
     scale={0.6}
-    offsetX={-0.35}
-    offsetY={1.6}
-    scrollSpeed={0.15}
+    offsetX={-0.6}
+    offsetY={0.5}
+    scrollSpeed={0.01}
     class="mid-layer">
     <img
       class="image"
@@ -31,12 +31,7 @@
       alt="" />
   </ParallaxLayer>
 
-  <ParallaxLayer
-    scale={1}
-    offsetX={0.1}
-    offsetY={0.1}
-    scrollSpeed={0.2}
-    class="front-layer">
+  <ParallaxLayer scale={1} scrollSpeed={-0.1} class="front-layer">
     <img
       class="image"
       style="filter: blur(2px);"

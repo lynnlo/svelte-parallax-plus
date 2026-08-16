@@ -4,7 +4,7 @@
 		"name": "lynn ong",
 		"url": "https://lynnong.com"
 	},
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"scripts": {
 		"dev": "cd demo && vite dev",
 		"prepare": "svelte-kit sync || echo ''",

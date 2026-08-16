@@ -20,7 +20,7 @@
   let {
     children,
     class: className = "",
-    stiffness = 0.5,
+    stiffness = 0.1,
     damping = 0.3,
     height: containerHeight = 0,
     disabled = false,
