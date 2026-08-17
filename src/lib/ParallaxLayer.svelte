@@ -8,9 +8,11 @@
   export type ParallaxLayerProps = {
     children?: Snippet;
     class?: ClassValue;
+    style?: string;
 
     scrollDirection?: number; // the angle of the scroll in radians / PI
     scrollSpeed: number; // speed that the layer scrolls at
+    scrollWidth?: number; // how much the layer scrolls
 
     bindingBox?: [number, number]; // the area in which the layer will scroll
 
@@ -22,8 +24,10 @@
   let {
     children,
     class: className = "",
+    style = "",
     scrollSpeed = 0,
     scrollDirection = 3 / 2,
+    scrollWidth = 1,
     bindingBox = [-1, 1],
     offsetY = 0,
     offsetX = 0,
@@ -84,8 +88,8 @@
         bindedScroll * scrollSpeed * -Math.sin(scrollDirection * Math.PI);
 
       // Update the spring with the new position
-      calculatedX.set(posX + dX / scaleFactor);
-      calculatedY.set(posY + dY / scaleFactor);
+      calculatedX.set(posX + (dX * scrollWidth) / scaleFactor);
+      calculatedY.set(posY + (dY * scrollWidth) / scaleFactor);
     },
     setHeight: (height: number) => {
       // Set the height of the layer to the height of the container
@@ -124,7 +128,7 @@
 
 <div
   class="parallax-layer {className}"
-  style="transform: {transform}; scale: {scale}; height: {layerHeight}px;">
+  style="transform: {transform}; scale: {scale}; height: {layerHeight}px; {style}">
   {@render children?.()}
 </div>
 
@@ -132,6 +136,6 @@
   .parallax-layer {
     width: 100%;
     position: absolute;
-    box-sizing: border-box;
+    box-sizing: content-box;
   }
 </style>

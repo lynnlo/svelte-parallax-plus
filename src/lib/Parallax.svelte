@@ -8,11 +8,14 @@
   export type ParallaxProps = {
     children?: Snippet;
     class?: ClassValue;
+    style?: string;
+
+    sections?: number;
 
     stiffness?: number; // stiffness of the spring
     damping?: number; // damping of the spring
 
-    height?: number; // optional height of the parallax container
+    sectionHeight?: number; // optional height of each section
 
     disabled?: boolean;
   };
@@ -20,9 +23,10 @@
   let {
     children,
     class: className = "",
+    style = "",
     stiffness = 0.1,
     damping = 0.3,
-    height: containerHeight = 0,
+    sectionHeight: containerHeight = 0,
     disabled = false,
   }: ParallaxProps = $props();
 
@@ -100,7 +104,7 @@
 <div
   class="parallax-container {className}"
   bind:this={container}
-  style="height: {height}px;">
+  style="height: {height}px; {style}">
   {@render children?.()}
 </div>
 
@@ -108,6 +112,6 @@
   .parallax-container {
     position: relative;
     overflow: hidden;
-    box-sizing: border-box;
+    box-sizing: content-box;
   }
 </style>
