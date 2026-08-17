@@ -10,7 +10,7 @@
     class?: ClassValue;
 
     scrollDirection?: number; // the angle of the scroll in radians / PI
-    scrollSpeed?: number; // speed that the layer scrolls at
+    scrollSpeed: number; // speed that the layer scrolls at
 
     bindingBox?: [number, number]; // the area in which the layer will scroll
 
@@ -22,14 +22,14 @@
   let {
     children,
     class: className = "",
-    scrollSpeed = 1,
+    scrollSpeed = 0,
     scrollDirection = 3 / 2,
     bindingBox = [-1, 1],
     offsetY = 0,
     offsetX = 0,
     scale = 1,
   }: ParallaxLayerProps = $props();
-  
+
   // Define state variables
   let layerHeight = $state(0);
   const calculatedY = new Spring(0, { precision: 0.01 });
@@ -102,7 +102,7 @@
         "ParallaxLayer must be used within a Parallax component.",
       );
     }
-    
+
     parallaxContext.registerLayer(localContext);
 
     return () => {

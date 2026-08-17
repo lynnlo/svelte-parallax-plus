@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Parallax from "../../../src/Parallax.svelte";
-  import ParallaxLayer from "../../../src/ParallaxLayer.svelte";
+  import Parallax from "$lib/Parallax.svelte";
+  import ParallaxLayer from "$lib/ParallaxLayer.svelte";
 </script>
 
 <div style="height: 100vh;"></div>
@@ -45,6 +45,12 @@
       src="Background 1.png"
       alt="" />
   </ParallaxLayer>
+</Parallax>
+
+<Parallax stiffness={0.1} damping={0.1}>
+  <ParallaxLayer scrollSpeed={0.5}>
+    <div style="width: 100px; height:100px; margin: 0 auto; background: #ccc">
+    </div></ParallaxLayer>
 </Parallax>
 
 <div style="height: 100vh;"></div>
