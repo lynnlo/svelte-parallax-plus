@@ -9,10 +9,10 @@
     children?: Snippet;
     class?: ClassValue;
 
+    scrollDirection?: number; // the angle of the scroll in radians / PI
     scrollSpeed?: number; // speed that the layer scrolls at
 
-    bindingBoxX?: [number, number]; // the horizontal bounding box of the layer
-    bindingBoxY?: [number, number]; // the vertical bounding box of the layer
+    bindingBox?: [number, number]; // the area in which the layer will scroll
 
     offsetX?: number; // the horizontal offset of the layer
     offsetY?: number; // the vertical offset of the layer
@@ -23,8 +23,8 @@
     children,
     class: className = "",
     scrollSpeed = 1,
-    bindingBoxX = [-1, 1],
-    bindingBoxY = [-1, 1],
+    scrollDirection = 3 / 2,
+    bindingBox = [-1, 1],
     offsetY = 0,
     offsetX = 0,
     scale = 1,
@@ -74,31 +74,21 @@
         return;
       }
 
-      const bindedScrollY = clamp(
-        bindingBoxY[0] * height - yTop,
+      const bindedScroll = clamp(
+        bindingBox[0] * height,
         scrollTop,
-        bindingBoxY[1] * height - yTop,
+        bindingBox[1] * height,
       );
 
-      console.log(
-        "yTop",
-        yTop,
-        "height",
-        height,
-        "bindingBoxY",
-        bindingBoxY.map((v) => v * height),
-        "scrollTop",
-        scrollTop,
-        "bindedScrollY",
-        bindedScrollY,
-      );
-
-      const dX = 0;
-      const dY = (bindedScrollY * scrollSpeed) / Math.max(0.01, scale);
+      const scaleFactor = Math.max(0.01, scale);
+      const dX =
+        bindedScroll * scrollSpeed * Math.cos(scrollDirection * Math.PI);
+      const dY =
+        bindedScroll * scrollSpeed * -Math.sin(scrollDirection * Math.PI);
 
       // Update the spring with the new position
-      calculatedX.set(posX);
-      calculatedY.set(posY + dY);
+      calculatedX.set(posX + dX / scaleFactor);
+      calculatedY.set(posY + dY / scaleFactor);
     },
     setHeight: (height: number) => {
       // Set the height of the layer to the height of the container
