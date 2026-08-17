@@ -4,6 +4,8 @@ A small libraray to support parallax scrolling for Svelte 5
 
 Heavily inspired by [svelte-parallax](https://github.com/kindoflew/svelte-parallax). This project is a complete rewrite of svelte-parallax to work with modern Svelte and typescript.
 
+Try out the [Demo](https://svelte.dev/playground/0ecb4b85c16c4e4ca3e9256376f4af6e?version=latest)!
+
 ## Installing
 
 npm
@@ -109,5 +111,5 @@ The parallax layer shifts its content based on information provided by the paral
 | scrollDirection | number [0-2]     | [Optional] The direction that the scrolls. Represented as a multiple of PI. 0: right, 0.5: up, 1: left, 1.5: down. | 1.5           |
 | bindingBox      | [number, number] | [Optional] The thresholds where the scrolling effect triggers.                                                     | [-1, 1]       |
 | offsetX         | number           | The X offset of the layer as a ratio of the container's width.                                                     | 0             |
-| offsetY         | number           | The Y offset of the layer as a ratio of the container's height.                                                     | 0             |
-| scale         | number           | The scale of the layer.                                                     | 1             |
+| offsetY         | number           | The Y offset of the layer as a ratio of the container's height.                                                    | 0             |
+| scale           | number           | The scale of the layer.                                                                                            | 1             |
