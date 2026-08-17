@@ -1,5 +1,7 @@
 {
 	"name": "svelte-parallax-plus",
+	"description": "A small parallax scrolling library for Svelte 5",
+	"license": "MIT",
 	"author": {
 		"name": "lynn ong",
 		"url": "https://lynnong.com"
