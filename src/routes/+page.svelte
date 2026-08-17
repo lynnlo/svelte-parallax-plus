@@ -47,12 +47,6 @@
   </ParallaxLayer>
 </Parallax>
 
-<Parallax stiffness={0.1} damping={0.1}>
-  <ParallaxLayer scrollSpeed={0.5}>
-    <div style="width: 100px; height:100px; margin: 0 auto; background: #ccc">
-    </div></ParallaxLayer>
-</Parallax>
-
 <div style="height: 100vh;"></div>
 
 <style>
