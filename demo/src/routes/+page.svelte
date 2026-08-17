@@ -61,6 +61,6 @@
   .image {
     width: 100%;
     height: auto;
-    contain: cover;
+    object-fit: cover;
   }
 </style>

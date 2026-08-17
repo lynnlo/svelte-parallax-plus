@@ -109,6 +109,5 @@
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
-    border: 1px solid #ccc;
   }
 </style>

@@ -29,10 +29,7 @@
     offsetX = 0,
     scale = 1,
   }: ParallaxLayerProps = $props();
-
-  // Define variables
-  let container: HTMLElement;
-
+  
   // Define state variables
   let layerHeight = $state(0);
   const calculatedY = new Spring(0, { precision: 0.01 });
@@ -100,6 +97,12 @@
   const parallaxContext = getContext<ParallaxContext>("parallax");
 
   onMount(() => {
+    if (!parallaxContext) {
+      throw new Error(
+        "ParallaxLayer must be used within a Parallax component.",
+      );
+    }
+    
     parallaxContext.registerLayer(localContext);
 
     return () => {
@@ -121,7 +124,6 @@
 
 <div
   class="parallax-layer {className}"
-  bind:this={container}
   style="transform: {transform}; scale: {scale}; height: {layerHeight}px;">
   {@render children?.()}
 </div>

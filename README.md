@@ -12,7 +12,7 @@ Heavily inspired by [svelte-parallax](https://github.com/kindoflew/svelte-parall
 npm
 
 ```sh
-npm i -D svelte-parallax-plus
+npm i svelte-parallax-plus
 ```
 
 pnpm
@@ -30,7 +30,7 @@ Below is a quickstart template
   import { Parallax, ParallaxLayer } from 'svelte-parallax-plus';
 </script>
 
-<Parallax stiffness={0.1} dampness={0.2}>
+<Parallax stiffness={0.1} damping={0.2}>
   <ParallaxLayer scrollSpeed={0} class="bg-layer">
     <div style="background: #ccf"></div>
   </ParallaxLayer>
