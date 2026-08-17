@@ -24,6 +24,7 @@
     children,
     class: className = "",
     style = "",
+    sections = 1,
     stiffness = 0.1,
     damping = 0.3,
     sectionHeight: containerHeight = 0,
@@ -39,6 +40,7 @@
   let innerHeight = $state(0);
   let yTop = $state(0);
   let width = $state(0);
+  let sectionHeight = $state(0);
   let height = $state(0);
   const scrollSpring = new Spring(0, { precision: 0.01 });
 
@@ -52,9 +54,10 @@
   function updateDimensions() {
     if (container) {
       width = container.getBoundingClientRect().width;
+      sectionHeight = containerHeight > 0 ? containerHeight : innerHeight;
+      height = sectionHeight * sections;
 
       yTop = container.getBoundingClientRect().top + y;
-      height = containerHeight > 0 ? containerHeight : innerHeight;
     }
   }
 
@@ -89,8 +92,8 @@
   $effect(() => {
     const scrollTop = y - yTop;
     for (const layer of layers) {
-      layer.setPosition(scrollTop, yTop, width, height, disabled);
-      layer.setHeight(height);
+      layer.setPosition(scrollTop, yTop, disabled);
+      layer.setDimensions(width, sectionHeight);
     }
   });
 </script>

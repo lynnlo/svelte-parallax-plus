@@ -14,6 +14,8 @@
     scrollSpeed: number; // speed that the layer scrolls at
     scrollWidth?: number; // how much the layer scrolls
 
+    sections?: number;
+
     bindingBox?: [number, number]; // the area in which the layer will scroll
 
     offsetX?: number; // the horizontal offset of the layer
@@ -28,6 +30,7 @@
     scrollSpeed = 0,
     scrollDirection = 3 / 2,
     scrollWidth = 1,
+    sections = 1,
     bindingBox = [-1, 1],
     offsetY = 0,
     offsetX = 0,
@@ -35,6 +38,7 @@
   }: ParallaxLayerProps = $props();
 
   // Define state variables
+  let layerWidth = $state(0);
   let layerHeight = $state(0);
   const calculatedY = new Spring(0, { precision: 0.01 });
   const calculatedX = new Spring(0, { precision: 0.01 });
@@ -46,27 +50,15 @@
 
   // Define a context object
   export type ParallaxLayerContext = {
-    setPosition: (
-      scrollTop: number,
-      yTop: number,
-      width: number,
-      height: number,
-      disabled: boolean,
-    ) => void;
-    setHeight: (height: number) => void;
+    setPosition: (scrollTop: number, yTop: number, disabled: boolean) => void;
+    setDimensions: (width: number, height: number) => void;
   };
 
   let localContext: ParallaxLayerContext = {
-    setPosition: (
-      scrollTop: number,
-      yTop: number,
-      width: number,
-      height: number,
-      disabled: boolean,
-    ) => {
+    setPosition: (scrollTop: number, yTop: number, disabled: boolean) => {
       // Position of the layer based on parent and offsets
-      const posX = offsetX * width * scale;
-      const posY = offsetY * height * scale;
+      const posX = offsetX * layerWidth * scale;
+      const posY = offsetY * layerHeight * scale;
 
       // If disabled, only set the offsets
       if (disabled) {
@@ -76,9 +68,9 @@
       }
 
       const bindedScroll = clamp(
-        bindingBox[0] * height,
+        bindingBox[0] * layerHeight,
         scrollTop,
-        bindingBox[1] * height,
+        bindingBox[1] * layerHeight,
       );
 
       const scaleFactor = Math.max(0.01, scale);
@@ -91,9 +83,9 @@
       calculatedX.set(posX + (dX * scrollWidth) / scaleFactor);
       calculatedY.set(posY + (dY * scrollWidth) / scaleFactor);
     },
-    setHeight: (height: number) => {
-      // Set the height of the layer to the height of the container
-      layerHeight = height;
+    setDimensions: (width: number, height: number) => {
+      layerWidth = width;
+      layerHeight = height * sections;
     },
   };
 
