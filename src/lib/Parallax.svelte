@@ -42,7 +42,7 @@
   let width = $state(0);
   let sectionHeight = $state(0);
   let height = $state(0);
-  const scrollSpring = new Spring(0, { precision: 0.01 });
+  const scrollSpring = new Spring(0, { precision: 0.0001 });
 
   // Set up scroll config on mount
   $effect(() => {

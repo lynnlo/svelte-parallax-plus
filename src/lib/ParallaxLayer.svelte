@@ -40,8 +40,8 @@
   // Define state variables
   let layerWidth = $state(0);
   let layerHeight = $state(0);
-  const calculatedY = new Spring(0, { precision: 0.01 });
-  const calculatedX = new Spring(0, { precision: 0.01 });
+  const calculatedY = new Spring(0, { precision: 0.0001 });
+  const calculatedX = new Spring(0, { precision: 0.0001 });
 
   // Define a clamp macro
   const clamp = (min: number, value: number, max: number) => {

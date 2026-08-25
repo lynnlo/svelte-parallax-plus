@@ -85,6 +85,20 @@ The parallax container provides context information (like height and scroll posi
 </Parallax>
 ```
 
+### Parallax Layer
+
+The parallax layer shifts its content based on information provided by the parallax container and its config.
+
+|                 |                  |                                                                                                                    |               |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------ | ------------- |
+| Prop            | Type             | Description                                                                                                        | Default Value |
+| **scrollSpeed** | number           | How fast the layer scrolls compared to the parent container. 0 is the same speed. Can be negative.                 | 0             |
+| scrollDirection | number [0-2]     | [Optional] The direction that the scrolls. Represented as a multiple of PI. 0: right, 0.5: up, 1: left, 1.5: down. | 1.5           |
+| bindingBox      | [number, number] | [Optional] The thresholds where the scrolling effect triggers.                                                     | [-1, 1]       |
+| offsetX         | number           | The X offset of the layer as a ratio of the container's width.                                                     | 0             |
+| offsetY         | number           | The Y offset of the layer as a ratio of the container's height.                                                    | 0             |
+| scale           | number           | The scale of the layer.                                                                                            | 1             |
+
 #### Example: Setting scroll behavior with runes
 
 ```svelte
@@ -99,17 +113,3 @@ The parallax container provides context information (like height and scroll posi
   </ParallaxLayer>
 </Parallax>
 ```
-
-### Parallax Layer
-
-The parallax layer shifts its content based on information provided by the parallax container and its config.
-
-|                 |                  |                                                                                                                    |               |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------ | ------------- |
-| Prop            | Type             | Description                                                                                                        | Default Value |
-| **scrollSpeed** | number           | How fast the layer scrolls compared to the parent container. 0 is the same speed. Can be negative.                 | 0             |
-| scrollDirection | number [0-2]     | [Optional] The direction that the scrolls. Represented as a multiple of PI. 0: right, 0.5: up, 1: left, 1.5: down. | 1.5           |
-| bindingBox      | [number, number] | [Optional] The thresholds where the scrolling effect triggers.                                                     | [-1, 1]       |
-| offsetX         | number           | The X offset of the layer as a ratio of the container's width.                                                     | 0             |
-| offsetY         | number           | The Y offset of the layer as a ratio of the container's height.                                                    | 0             |
-| scale           | number           | The scale of the layer.                                                                                            | 1             |
