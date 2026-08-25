@@ -17,6 +17,9 @@ jobs:
         with:
           version: latest-11
           node-version: 20
+          registry-url: 'https://registry.npmjs.org/'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
       - run: pnpm ci
       - run: pnpm prepack
 
@@ -30,7 +33,9 @@ jobs:
         with:
           version: latest-11
           node-version: 20
-          registry-url: https://registry.npmjs.org/
+          registry-url: 'https://registry.npmjs.org/'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
       - run: pnpm ci
       - run: npm publish
         env:
