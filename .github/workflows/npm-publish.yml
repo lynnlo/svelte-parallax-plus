@@ -18,7 +18,7 @@ jobs:
           version: latest-11
           node-version: 20
       - run: pnpm ci
-      - run: pnpm test
+      - run: pnpm prepack
 
   publish-npm:
     needs: build
